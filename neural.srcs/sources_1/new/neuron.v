@@ -1,5 +1,7 @@
 module neuron #(
-    integer INPUT_NEURONS
+    integer INPUT_NEURONS=0,
+    integer DATAWIDTH=0
+   
 ) (
     input clock,
     input [DATAWIDTH-1:0][INPUT_NEURONS:0] input_data,
