@@ -1,0 +1,4 @@
+Running: xsim.dir/neuron_behav/xsimk -simmode gui -wdb neuron_behav.wdb -simrunnum 0 -socket 37651
+Design successfully loaded
+Design Loading Memory Usage: 36736 KB (Peak: 36792 KB)
+Design Loading CPU Usage: 0 ms
