@@ -8,22 +8,15 @@ FP_INTEGER_MASK = (1 << FP_INTEGER) - 1
 FP_FRACTION_MASK = (1 << FP_FRACTION) - 1
 FP_FULL_MASK = (1 << FP_BITS) - 1
 
-integer_bits = 10
-fraction_bits = 32-integer_bits
-sign_bit_position = integer_bits + fraction_bits - 1
-integer_mask = (1 << integer_bits) - 1
-fraction_mask = (1 << fraction_bits) - 1
-full_mask = (1 << (integer_bits + fraction_bits)) - 1
-
-FP_SATURATING_MAX_INTEGER_THRESHOLD = (1 << (integer_bits - 1)) - 1
-FP_SATURATING_MAX = (1 << (integer_bits + fraction_bits - 1)) - 1
+FP_SATURATING_MAX_INTEGER_THRESHOLD = (1 << (FP_INTEGER - 1)) - 1
+FP_SATURATING_MAX = (1 << (FP_BITS - 1)) - 1
 
 class FP:
     def __init__(self, num: float):
-        integer = int(num) & integer_mask
+        integer = abs(int(num))
         self.bits = integer << FP_FRACTION
 
-        fraction = num % 1
+        fraction = abs(num) % 1
         for i in range(FP_FRACTION):
             power = -1 - i
             part = 2 ** power
@@ -31,10 +24,21 @@ class FP:
                 self.bits |= 1 << (FP_FRACTION - 1 - i)
                 fraction -= part
 
+        if num < 0:
+            self.bits = (~self.bits & FP_FULL_MASK) + 1
+
+        # print(f"bits = {self.bits:0{FP_BITS}b}")
+
     def __repr__(self: "FP"):
         fraction = 0
 
-        bits = self.bits & FP_FRACTION_MASK
+        stuff = self.bits
+        if self.sign():
+            stuff = (~stuff & FP_FULL_MASK) + 1
+
+        # print(f"bits = {stuff:0{FP_BITS}b}")
+
+        bits = stuff & FP_FRACTION_MASK
         for i in range(FP_FRACTION):
             power = -1 - i
             fraction += (bits >> (FP_FRACTION - 1 - i) & 1) * 2 ** power
@@ -42,7 +46,7 @@ class FP:
         sign_bit = self.bits >> FP_SIGN
         fraction = f"{fraction:.08f}"
         sign = "-" if sign_bit == 1 else ""
-        integer = ((self.bits >> FP_FRACTION) ^ (sign_bit * FP_INTEGER_MASK)) + sign_bit
+        integer = stuff >> FP_FRACTION
         return f"{sign}{integer}.{fraction[2:]}"
 
     @staticmethod

@@ -3,8 +3,10 @@
 module TestLayer
 ();
 
+    `include "fixedpoint.v"
+
     localparam DATAWIDTH = 32;
-    localparam LAYER0_NEURONS = 3;
+    localparam LAYER0_NEURONS = 2;
     localparam LAYER1_NEURONS = 1;
     
     reg clock = 0;
@@ -43,10 +45,33 @@ module TestLayer
     );
     
     initial begin
+        input_data[0] <= 0 << `FP_FRACTION;
+        input_data[1] <= 0 << `FP_FRACTION;
+        
+        #1 $display(layer1_outputs[0]);
+        
+        #75;
+        
+        input_data[0] <= 1 << `FP_FRACTION;
+        input_data[1] <= 0 << `FP_FRACTION;
+        
+        #1 $display(layer1_outputs[0]);
+        
+        #75;
+    
+        input_data[0] <= 0 << `FP_FRACTION;
+        input_data[1] <= 1 << `FP_FRACTION;
+        
+        #1 $display(layer1_outputs[0]);
+        
+        #75;
+        
         input_data[0] <= 1 << `FP_FRACTION;
         input_data[1] <= 1 << `FP_FRACTION;
         
-        #5;
+        #1 $display(layer1_outputs[0]);
+        
+        #75;
         
         $display("done");
     end

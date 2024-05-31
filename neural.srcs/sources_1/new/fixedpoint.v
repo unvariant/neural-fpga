@@ -12,8 +12,10 @@ function [DATAWIDTH-1:0] fmul;
     reg [DATAWIDTH*2-1:0] extended_b;
     reg [DATAWIDTH*2-1:0] tmp;
     begin
-        extended_a = {'h00000000, a};
-        extended_b = {'h00000000, b};
+        extended_a[DATAWIDTH-1:0] = a;
+        extended_a[DATAWIDTH*2-1:DATAWIDTH-1] = {DATAWIDTH{a[DATAWIDTH-1]}};
+        extended_b[DATAWIDTH-1:0] = b;
+        extended_b[DATAWIDTH*2-1:DATAWIDTH-1] = {DATAWIDTH{b[DATAWIDTH-1]}};
         tmp = extended_a * extended_b;
         fmul = tmp >> `FP_FRACTION;
     end

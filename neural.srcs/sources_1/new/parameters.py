@@ -1,5 +1,6 @@
 from pathlib import Path
-from fp import FP
+from fp import FP, FP_FULL_MASK
+import fp
 import os
 
 class Layer:
@@ -10,16 +11,15 @@ class Layer:
 layers = [
     Layer(
         weights = [
-            [1, 1],
-            [-1, -1],
+            [0, 0], [ 0, 0 ],
         ],
-        biases = [ .5, -1.5, ]
+        biases = [1, 1],
     ),
     Layer(
         weights = [
-            [1, 1]
+            [-5, 5],
         ],
-        biases = [ 1.5, ],
+        biases = [2],
     )
 ]
 
@@ -49,4 +49,16 @@ for i, layer in enumerate(layers):
         with open(bfile, "w+") as file:
             file.write(bias)
 
-os.symlink("../../../neural.sim/sim_1/behav/layers", "layers", target_is_directory=True)
+# os.symlink(Path(".").absolute() / "layers", Path(".") / "../../../neural.sim/sim_1/behav/layers", target_is_directory=True)
+# os.symlink(Path(".").absolute() / "layers", Path(".") / "../../../neural.sim/sim_1/behav/xsim/layers", target_is_directory=True)
+
+# a = FP.raw(0x800)
+# b = FP.raw(0x800)
+# c = FP.raw((a.bits * b.bits >> fp.FP_FRACTION) & FP_FULL_MASK)
+# print(a, b, c)
+
+# print(FP.raw(0xe3d), FP.raw(0x570))
+
+print("HEY")
+print(FP(-0.11))
+print(FP.raw(0xffffd800), FP.raw(0xffffe509), FP.raw(0xffffed54), FP.raw(0xffffe2a8))

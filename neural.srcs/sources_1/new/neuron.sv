@@ -17,12 +17,22 @@ module neuron #(
     reg [DATAWIDTH-1:0] bias[0:0];
     reg [DATAWIDTH-1:0] multiplies[INPUT_NEURONS-1:0];
     reg [DATAWIDTH-1:0] weights[INPUT_NEURONS-1:0];
-    
+
     initial begin
-//        $readmemh("meow.mem", bias);
-//        $readmemh($sformatf("layers/layer-%0d/neuron-%0d/weights.mem", LAYER_INDEX, NEURON_INDEX), weights);
-//        $readmemh($sformatf("layers/layer-%0d/neuron-%0d/bias.mem", LAYER_INDEX, NEURON_INDEX), bias);
-        $readmemh($sformatf("layer-%0d_neuron-%0d_bias.mem", LAYER_INDEX, NEURON_INDEX), bias);
+        $readmemh({
+            "./layers/layer-",
+            $sformatf("%0d", LAYER_INDEX),
+            "/neuron-",
+            $sformatf("%0d", NEURON_INDEX),
+            "/weights.mem"
+        }, weights);
+        $readmemh({
+            "./layers/layer-",
+            $sformatf("%0d", LAYER_INDEX),
+            "/neuron-",
+            $sformatf("%0d", NEURON_INDEX),
+            "/bias.mem"
+        }, bias);
     end
 
     genvar multi;
@@ -33,13 +43,15 @@ module neuron #(
             end
         end
     endgenerate
-    
+
     integer i;
     always @(posedge clock) begin
         result = bias[0];
         for (i = 0; i < INPUT_NEURONS; i = i + 1) begin
             result = result + multiplies[i];
         end
+        if (result[DATAWIDTH-1] == 1)
+            result = 0;
     end
-    
+
 endmodule
