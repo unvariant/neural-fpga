@@ -2,12 +2,12 @@
 # Webtalk v2017.4 (64-bit)
 # SW Build 2086221 on Fri Dec 15 20:54:30 MST 2017
 # IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
-# Start of session at: Thu May 30 10:11:44 2024
-# Process ID: 48285
+# Start of session at: Fri May 31 09:49:24 2024
+# Process ID: 40682
 # Current directory: /home/unvariant/code/digital-electronics/neural/neural.sim/sim_1/behav/xsim
-# Command line: wbtcv -mode batch -source /home/unvariant/code/digital-electronics/neural/neural.sim/sim_1/behav/xsim/xsim.dir/neuron_behav/webtalk/xsim_webtalk.tcl -notrace
+# Command line: wbtcv -mode batch -source /home/unvariant/code/digital-electronics/neural/neural.sim/sim_1/behav/xsim/xsim.dir/TestLayer_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /home/unvariant/code/digital-electronics/neural/neural.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: /home/unvariant/code/digital-electronics/neural/neural.sim/sim_1/behav/xsim/webtalk.jou
 #-----------------------------------------------------------
-source /home/unvariant/code/digital-electronics/neural/neural.sim/sim_1/behav/xsim/xsim.dir/neuron_behav/webtalk/xsim_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Thu May 30 10:11:45 2024...
+source /home/unvariant/code/digital-electronics/neural/neural.sim/sim_1/behav/xsim/xsim.dir/TestLayer_behav/webtalk/xsim_webtalk.tcl -notrace
+INFO: [Common 17-206] Exiting Webtalk at Fri May 31 09:49:25 2024...

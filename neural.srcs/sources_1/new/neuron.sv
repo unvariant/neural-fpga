@@ -11,9 +11,8 @@ module neuron #(
     output finished
 );
 
-    `include "fixedpoint.v"
+    `include "fixedpoint.sv"
 
-    reg [31:0] counter = 0;
     reg [DATAWIDTH-1:0] bias[0:0];
     reg [DATAWIDTH-1:0] multiplies[INPUT_NEURONS-1:0];
     reg [DATAWIDTH-1:0] weights[INPUT_NEURONS-1:0];
@@ -48,7 +47,7 @@ module neuron #(
     always @(posedge clock) begin
         result = bias[0];
         for (i = 0; i < INPUT_NEURONS; i = i + 1) begin
-            result = result + multiplies[i];
+            result = fadd(result, multiplies[i]);
         end
         if (result[DATAWIDTH-1] == 1)
             result = 0;

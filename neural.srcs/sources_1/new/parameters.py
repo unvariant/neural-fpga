@@ -10,22 +10,22 @@ class Layer:
 
 layers = [
     Layer(
-        weights = [
-            [0, 0], [ 0, 0 ],
-        ],
-        biases = [1, 1],
+        weights = [[ 1.3438268, 0.7844486], [-0.6944131 , 0.6218078]],
+        biases = [-0.00301381, -0.11910037],
     ),
     Layer(
-        weights = [
-            [-5, 5],
-        ],
-        biases = [2],
-    )
+        weights = [[-0.98676234, -0.8495982], [0.6073692, 1.1075667], [-0.22434632, 0.4754743]],
+        biases = [0.0 , 0.08753138, 0.4771235 ],
+    ),
+    Layer(
+        weights = [[-0.09532094, 0.5391998, -1.6091115], [-0.4663906, -0.58212435, 0.14439683], [-0.9640589, 0.9315815, -0.55397123]],
+        biases = [-0.20772645, 0.02957543, 0.18059736],
+    ),
+    Layer(
+        weights = [[-2.979263 , -0.0728805,  1.0819083]],
+        biases = [0.00229267],
+    ),
 ]
-
-FP_BITS = 32
-FP_INTEGER = 20
-FP_FRACTION = FP_BITS - FP_INTEGER
 
 root = Path("layers")
 
@@ -58,7 +58,3 @@ for i, layer in enumerate(layers):
 # print(a, b, c)
 
 # print(FP.raw(0xe3d), FP.raw(0x570))
-
-print("HEY")
-print(FP(-0.11))
-print(FP.raw(0xffffd800), FP.raw(0xffffe509), FP.raw(0xffffed54), FP.raw(0xffffe2a8))

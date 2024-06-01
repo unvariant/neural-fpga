@@ -1,5 +1,5 @@
-`define FP_INTEGER 20
-`define FP_FRACTION 12
+`define FP_INTEGER 8
+`define FP_FRACTION 24
 
 // TODO: handle overflow and saturate properly
 // fp addition can only overflow when sign(a) != sign(b)
