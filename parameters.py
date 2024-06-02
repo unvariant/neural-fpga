@@ -28,7 +28,6 @@ layers = [
 
 root = Path("layers")
 fp = FP(integer_bits=8, fractional_bits=24)
-fp.write("fixedpoint.v")
 
 for i, layer in enumerate(layers):
     current_layer = root / f"layer-{i}"
@@ -50,8 +49,18 @@ for i, layer in enumerate(layers):
         with open(bfile, "w+") as file:
             file.write(bias)
 
-simulation_directory = Path(".") / ".." / ".." / ".." / "neural.sim" / "sim_1" / "behav" / "xsim"
-simulation_layers = simulation_directory / "layers"
+vivado_sources_directory = Path(".") / "vivado" / "neural.srcs" / "sources_1" / "new"
+vivado_simulation_directory = Path(".") / "vivado" / "neural.sim" / "sim_1" / "behav" / "xsim"
+vivado_simulation_layers = vivado_simulation_directory / "layers"
+modelsim_sources_directory = Path(".") / "modelsim"
+modelsim_simulation_directory = modelsim_sources_directory
+modelsim_simulation_layers = modelsim_simulation_directory / "layers"
 current_layers = Path(".").absolute() / "layers"
-if not simulation_layers.exists():
-    os.symlink(current_layers, simulation_layers)
+
+if not vivado_simulation_layers.exists():
+    os.symlink(current_layers, vivado_simulation_layers)
+if not modelsim_simulation_layers.exists():
+    os.symlink(current_layers, modelsim_simulation_layers)
+
+fp.write(vivado_sources_directory / "fixedpoint.v")
+fp.write(modelsim_sources_directory / "fixedpoint.v")

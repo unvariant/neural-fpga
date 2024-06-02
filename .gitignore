@@ -1,8 +1,15 @@
-neural.xpr
-neural.cache/
-neural.hw/
-neural.sim/
-neural.ip_user_files/
+# vivado stuff
+vivado/neural.xpr
+vivado/neural.*/
+!vivado/neural.srcs
 **/*.log
 **/*.jou
+
+# modelsim stuff
+**/*.bak
+**/*.wlf
+**/*.mti
+modelsim/work/*
+
+# misc
 **/__pycache__/

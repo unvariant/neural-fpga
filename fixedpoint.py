@@ -90,7 +90,7 @@ class FP:
     def raw(self, bits: int):
         return FPNum(self, bits & self.MASK)
 
-    def write(self, file: str):
+    def write(self, file):
         with open("fixedpoint.v.template", "r") as f:
             template = f.read()
         with open(file, "w+") as f:
