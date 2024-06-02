@@ -27,8 +27,6 @@ class FP:
         if num < 0:
             self.bits = (~self.bits & FP_FULL_MASK) + 1
 
-        # print(f"bits = {self.bits:0{FP_BITS}b}")
-
     def __repr__(self: "FP"):
         fraction = 0
 
@@ -59,36 +57,33 @@ class FP:
         return self.bits >> FP_SIGN
 
     def mul(self, other: "FP"):
-        self_extend = self.sign() * (full_mask << FP_BITS)
-        other_extend = other.sign() * (full_mask << FP_BITS)
+        self_extend = self.sign() * (FP_FULL_MASK << FP_BITS)
+        other_extend = other.sign() * (FP_FULL_MASK << FP_BITS)
         temp = (self.bits | self_extend) * (other.bits | other_extend)
-        temp >>= fraction_bits
+        temp >>= FP_FRACTION
 
-        fixup = (self.sign() ^ other.sign()) * (other.bits != 0) * (self.bits != 0)
-        mask = FP_INTEGER_MASK | (FP_INTEGER_MASK << FP_INTEGER)
-        integer = (temp >> fraction_bits) & mask
-        # print(fixup)
-        # print(f"integer = {integer:0{integer_bits * 2}b}")
-        # thing = ((integer ^ fixup * mask) + fixup)
-        # print(f"thing   = {thing:0{integer_bits*2}b}")
-        # print(f"max     = {FP_SATURATING_MAX_INTEGER_THRESHOLD:0{integer_bits*2}b}")
+        fixup = (self.sign() ^ other.sign()) & (other.bits != 0) & (self.bits != 0)
+        integer = (temp >> FP_FRACTION) & FP_FULL_MASK
 
-        if ((integer ^ fixup * mask) + fixup) > FP_SATURATING_MAX_INTEGER_THRESHOLD + fixup:
+        if ((integer ^ fixup * FP_FULL_MASK) + fixup) > FP_SATURATING_MAX_INTEGER_THRESHOLD + fixup:
             return FP.raw(FP_SATURATING_MAX + fixup)
 
         temp %= (1 << FP_BITS)
         return FP.raw(temp)
 
     def add(self, other: "FP"):
-        temp = self.bits + other.bits
+        self_extend = self.sign() * (FP_FULL_MASK << FP_BITS)
+        other_extend = other.sign() * (FP_FULL_MASK << FP_BITS)
+        temp = (self.bits | self_extend) + (other.bits | other_extend)
+        mask = (FP_INTEGER_MASK + (0b1 << FP_INTEGER))
 
         if self.sign() == other.sign():
-            if (temp >> FP_FRACTION) % (1 << (FP_INTEGER - 1)) > FP_SATURATING_MAX_INTEGER_THRESHOLD + self.sign():
+            fixup = temp >> (FP_BITS * 2 - 1)
+            integer = temp >> FP_FRACTION
+            if ((integer ^ fixup * mask) + fixup) & mask > FP_SATURATING_MAX_INTEGER_THRESHOLD + fixup:
                 return FP.raw(FP_SATURATING_MAX + self.sign())
-            else:
-                return FP.raw((self.bits & (1 << FP_SIGN)) | (self.bits % ((1 << FP_SIGN) - 1)))
 
-        return FP.raw(temp & full_mask)
+        return FP.raw(temp & FP_FULL_MASK)
 
 if __name__ == "__main__":
     hi = float(str(FP.raw(FP_SATURATING_MAX)))
@@ -113,7 +108,7 @@ if __name__ == "__main__":
                 expected = hi
             if expected < lo:
                 expected = lo
-            assert float(str(c)) == expected, f"\n{c} == {expected}\n{i}, {j}\n{a}, {b}"
+            assert float(str(c)) == expected, f"mul: \n{c} == {expected}\n{i}, {j}\n{a}, {b}"
 
             expected = float(i + j)
             if expected > hi:
@@ -121,4 +116,4 @@ if __name__ == "__main__":
             if expected < lo:
                 expected = lo
             d = a.add(b)
-            assert float(str(d)) == expected, f"\n{c} == {expected}\n{i}, {j}\n{a}, {b}"
+            assert float(str(d)) == expected, f"add: \n{d} == {expected}\n{i}, {j}\n{a}, {b}"
