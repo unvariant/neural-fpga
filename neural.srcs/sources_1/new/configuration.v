@@ -1,1 +1,0 @@
-`define DATAWIDTH 32

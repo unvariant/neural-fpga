@@ -5,3 +5,4 @@ neural.sim/
 neural.ip_user_files/
 **/*.log
 **/*.jou
+**/__pycache__/
