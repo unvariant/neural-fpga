@@ -1,13 +1,16 @@
+// This file is meant to be included inside modules that have a
+// `DATAWIDTH` parameter, otherwise these functions will fail to compile.
+
 // TODO: handle overflow and saturate properly
 // fp addition can only overflow when sign(a) != sign(b)
 // fp multiplication can overflow anytime
 
-function [DATAWIDTH] fmul;
-    input [DATAWIDTH] a;
-    input [DATAWIDTH] b;
-    reg [DATAWIDTH*2] extended_a;
-    reg [DATAWIDTH*2] extended_b;
-    reg [DATAWIDTH*2] tmp;
+function [DATAWIDTH-1:0] fmul;
+    input [DATAWIDTH-1:0] a;
+    input [DATAWIDTH-1:0] b;
+    reg [DATAWIDTH*2-1:0] extended_a;
+    reg [DATAWIDTH*2-1:0] extended_b;
+    reg [DATAWIDTH*2-1:0] tmp;
     begin
         extended_a[0+:DATAWIDTH] = a;
         extended_a[DATAWIDTH+:DATAWIDTH] = {DATAWIDTH{a[DATAWIDTH-1]}};
@@ -18,9 +21,9 @@ function [DATAWIDTH] fmul;
     end
 endfunction
 
-function [DATAWIDTH] fadd;
-    input [DATAWIDTH] a;
-    input [DATAWIDTH] b;
+function [DATAWIDTH-1:0] fadd;
+    input [DATAWIDTH-1:0] a;
+    input [DATAWIDTH-1:0] b;
 
     begin
         fadd = a + b;

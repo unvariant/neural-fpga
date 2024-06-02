@@ -28,7 +28,7 @@ layers = [
 
 root = Path("layers")
 fp = FP(integer_bits=8, fractional_bits=24)
-fp.write("fixedpoint.sv")
+fp.write("fixedpoint.v")
 
 for i, layer in enumerate(layers):
     current_layer = root / f"layer-{i}"
@@ -39,14 +39,14 @@ for i, layer in enumerate(layers):
 
         wfile = neuron / "weights.mem"
         weights = map(lambda w: fp.new(w), weights)
-        weights = map(lambda f: f"{f.bits:08x} // {f}", weights)
+        weights = map(lambda f: f"{f.bits:0{fp.BITS}b} // {f}", weights)
         weights = "\n".join(weights)
         with open(wfile, "w+") as file:
             file.write(weights)
 
         bfile = neuron / "bias.mem"
         bias = fp.new(layer.biases[j])
-        bias = f"{bias.bits:08x} // {bias}"
+        bias = f"{bias.bits:0{fp.BITS}b} // {bias}"
         with open(bfile, "w+") as file:
             file.write(bias)
 
