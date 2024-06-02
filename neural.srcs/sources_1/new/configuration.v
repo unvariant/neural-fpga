@@ -1,1 +1,3 @@
 `define DATAWIDTH 32
+`define FP_INTEGER 8
+`define FP_FRACTION 24

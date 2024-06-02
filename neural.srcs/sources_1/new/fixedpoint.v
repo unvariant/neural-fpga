@@ -1,11 +1,8 @@
-`define FP_INTEGER 8
-`define FP_FRACTION 24
 
-// TODO: handle overflow and saturate properly
-// fp addition can only overflow when sign(a) != sign(b)
-// fp multiplication can overflow anytime
+
 
 function [DATAWIDTH-1:0] fmul;
+    localparam DATAWIDTH = 32;
     input [DATAWIDTH-1:0] a;
     input [DATAWIDTH-1:0] b;
     reg [DATAWIDTH*2-1:0] extended_a;

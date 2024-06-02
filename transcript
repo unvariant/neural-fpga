@@ -1,0 +1,23 @@
+# Compile of access_mem.v was successful.
+# Compile of BenchNeuron.v failed with 7 errors.
+# Compile of configuration.v was successful.
+# Compile of fixedpoint.v failed with 1 errors.
+# Compile of layer.v failed with 3 errors.
+# Compile of neuron.v failed with 3 errors.
+# Compile of TestLayer.v failed with 20 errors.
+# 7 compiles, 5 failed with 34 errors.
+# Compile of fixedpoint.v failed with 2 errors.
+# Error opening C:/Users/Lakshmi CH/programming/neural-fpga/(vlog-13069) C:/Users/Lakshmi CH/programming/neural-fpga/neural.srcs/sources_1/new/fixedpoint.v
+# Path name 'C:/Users/Lakshmi CH/programming/neural-fpga/(vlog-13069) C:/Users/Lakshmi CH/programming/neural-fpga/neural.srcs/sources_1/new/fixedpoint.v' doesn't exist.
+# Error opening C:/Users/Lakshmi CH/programming/neural-fpga/(vlog-13069) C:/Users/Lakshmi CH/programming/neural-fpga/neural.srcs/sources_1/new/fixedpoint.v
+# Path name 'C:/Users/Lakshmi CH/programming/neural-fpga/(vlog-13069) C:/Users/Lakshmi CH/programming/neural-fpga/neural.srcs/sources_1/new/fixedpoint.v' doesn't exist.
+# Compile of fixedpoint.v failed with 1 errors.
+# Compile of fixedpoint.v failed with 1 errors.
+# Compile of configuration.v was successful.
+# Compile of fixedpoint.v failed with 1 errors.
+# Compile of fixedpoint.v failed with 1 errors.
+# Compile of fixedpoint.v failed with 1 errors.
+# Compile of configuration.v was successful.
+# Compile of fixedpoint.v failed with 1 errors.
+# 2 compiles, 1 failed with 1 error.
+# Compile of fixedpoint.v failed with 3 errors.

@@ -1,8 +1,8 @@
 `timescale 1us/1ns
-
+`include configuration.v
 module BenchNeuron
 #(
-    DATAWIDTH=32,
+    parameter DATAWIDTH=32,
     INPUT_NEURONS=2
 )
 ();

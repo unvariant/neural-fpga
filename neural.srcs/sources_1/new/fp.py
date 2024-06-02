@@ -1,35 +1,38 @@
 import math
 
-FP_BITS = 32
-FP_INTEGER = 8
-FP_FRACTION = FP_BITS - FP_INTEGER
-FP_SIGN = FP_BITS - 1
-FP_INTEGER_MASK = (1 << FP_INTEGER) - 1
+FP_BITS = 32 # total number of bits in the fixed point number
+FP_INTEGER = 8 # bits assigned to the integer part of the number
+FP_FRACTION = FP_BITS - FP_INTEGER # bits assigned to the fractional part of the number
+FP_SIGN = FP_BITS - 1 # index of the sign bit
+FP_INTEGER_MASK = (1 << FP_INTEGER) - 1 
 FP_FRACTION_MASK = (1 << FP_FRACTION) - 1
 FP_FULL_MASK = (1 << FP_BITS) - 1
+
+# note that << and >> act as shift operators in python
 
 FP_SATURATING_MAX_INTEGER_THRESHOLD = (1 << (FP_INTEGER - 1)) - 1
 FP_SATURATING_MAX = (1 << (FP_BITS - 1)) - 1
 
-class FP:
+class FP():
     def __init__(self, num: float):
         integer = abs(int(num))
         self.bits = integer << FP_FRACTION
 
-        fraction = abs(num) % 1
+        fraction = abs(num) % 1 # get the fractional part of the number ( after the decimal point)
+        # the following loop will set the bits of the fractional part of the number
         for i in range(FP_FRACTION):
-            power = -1 - i
-            part = 2 ** power
+            power = -1 - i # the power of 2 that we are looking at (since binary system)
+            part = 2 ** power # the value of the bit we are looking at 
             if part <= fraction:
-                self.bits |= 1 << (FP_FRACTION - 1 - i)
-                fraction -= part
+                self.bits |= 1 << (FP_FRACTION - 1 - i) # if either the bit is 1 or Fraction is greater than 1, set the bit to 1
+                fraction -= part 
 
         if num < 0:
             self.bits = (~self.bits & FP_FULL_MASK) + 1
 
-        # print(f"bits = {self.bits:0{FP_BITS}b}")
+        # print(f"bits = {self.bits:0{FP_BITS}b}") 
 
-    def __repr__(self: "FP"):
+    def __repr__(self: "FP"): # this function is called when we print the object
         fraction = 0
 
         stuff = self.bits
@@ -58,7 +61,7 @@ class FP:
     def sign(self):
         return self.bits >> FP_SIGN
 
-    def mul(self, other: "FP"):
+    def mul(self, other: "FP"): # multiply two fixed point numbers
         self_extend = self.sign() * (full_mask << FP_BITS)
         other_extend = other.sign() * (full_mask << FP_BITS)
         temp = (self.bits | self_extend) * (other.bits | other_extend)
@@ -77,7 +80,7 @@ class FP:
             return FP.raw(FP_SATURATING_MAX + fixup)
 
         temp %= (1 << FP_BITS)
-        return FP.raw(temp)
+        return FP.raw(temp) 
 
     def add(self, other: "FP"):
         temp = self.bits + other.bits
