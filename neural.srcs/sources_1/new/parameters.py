@@ -1,6 +1,5 @@
 from pathlib import Path
-from fp import FP, FP_FULL_MASK
-import fp
+from fixedpoint import FP
 import os
 
 class Layer:
@@ -28,6 +27,8 @@ layers = [
 ]
 
 root = Path("layers")
+fp = FP(integer_bits=8, fractional_bits=24)
+fp.write("fixedpoint.sv")
 
 for i, layer in enumerate(layers):
     current_layer = root / f"layer-{i}"
@@ -37,24 +38,20 @@ for i, layer in enumerate(layers):
         neuron.mkdir(exist_ok=True, parents=True)
 
         wfile = neuron / "weights.mem"
-        weights = map(FP, weights)
-        weights = map(lambda fp: f"{fp.bits:08x} // {fp}", weights)
+        weights = map(lambda w: fp.new(w), weights)
+        weights = map(lambda f: f"{f.bits:08x} // {f}", weights)
         weights = "\n".join(weights)
         with open(wfile, "w+") as file:
             file.write(weights)
 
         bfile = neuron / "bias.mem"
-        bias = FP(layer.biases[j])
+        bias = fp.new(layer.biases[j])
         bias = f"{bias.bits:08x} // {bias}"
         with open(bfile, "w+") as file:
             file.write(bias)
 
-# os.symlink(Path(".").absolute() / "layers", Path(".") / "../../../neural.sim/sim_1/behav/layers", target_is_directory=True)
-# os.symlink(Path(".").absolute() / "layers", Path(".") / "../../../neural.sim/sim_1/behav/xsim/layers", target_is_directory=True)
-
-# a = FP.raw(0x800)
-# b = FP.raw(0x800)
-# c = FP.raw((a.bits * b.bits >> fp.FP_FRACTION) & FP_FULL_MASK)
-# print(a, b, c)
-
-# print(FP.raw(0xe3d), FP.raw(0x570))
+simulation_directory = Path(".") / ".." / ".." / ".." / "neural.sim" / "sim_1" / "behav" / "xsim"
+simulation_layers = simulation_directory / "layers"
+current_layers = Path(".").absolute() / "layers"
+if not simulation_layers.exists():
+    os.symlink(current_layers, simulation_layers)

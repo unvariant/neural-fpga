@@ -17,8 +17,8 @@ module TestLayer #(
     genvar i;
     generate
         for (i = 0; i < $size(LayerNeurons); i = i + 1) begin : layers
-            localparam int NumberOfInputs = (i == 0) ? $size(input_data) : LAYER_NEURONS[i-1];
-            localparam int NumberOfOutputs = LAYER_NEURONS[i];
+            localparam int NumberOfInputs = (i == 0) ? $size(input_data) : LayerNeurons[i-1];
+            localparam int NumberOfOutputs = LayerNeurons[i];
 
             wire [DATAWIDTH-1:0] inputs [ NumberOfInputs-1:0];
             wire [DATAWIDTH-1:0] outputs[NumberOfOutputs-1:0];
@@ -31,8 +31,8 @@ module TestLayer #(
 
             layer #(
                 .DATAWIDTH(DATAWIDTH),
-                .OUTPUT_NEURONS(number_of_outputs),
-                .INPUT_NEURONS(number_of_inputs),
+                .OUTPUT_NEURONS(NumberOfOutputs),
+                .INPUT_NEURONS(NumberOfInputs),
                 .LAYER_INDEX(i)
             ) GeneratedLayer (
                 .clock(clock),
@@ -46,28 +46,28 @@ module TestLayer #(
         input_data[0] <= 0 << `FP_FRACTION;
         input_data[1] <= 0 << `FP_FRACTION;
 
-        #1 $display(layers[$size(LAYER_NEURONS)-1].outputs);
+        #1 $display(layers[$size(LayerNeurons)-1].outputs);
 
         #75;
 
         input_data[0] <= 1 << `FP_FRACTION;
         input_data[1] <= 0 << `FP_FRACTION;
 
-        #1 $display(layers[$size(LAYER_NEURONS)-1].outputs);
+        #1 $display(layers[$size(LayerNeurons)-1].outputs);
 
         #75;
 
         input_data[0] <= 0 << `FP_FRACTION;
         input_data[1] <= 1 << `FP_FRACTION;
 
-        #1 $display(layers[$size(LAYER_NEURONS)-1].outputs);
+        #1 $display(layers[$size(LayerNeurons)-1].outputs);
 
         #75;
 
         input_data[0] <= 1 << `FP_FRACTION;
         input_data[1] <= 1 << `FP_FRACTION;
 
-        #1 $display(layers[$size(LAYER_NEURONS)-1].outputs);
+        #1 $display(layers[$size(LayerNeurons)-1].outputs);
 
         #75;
 
