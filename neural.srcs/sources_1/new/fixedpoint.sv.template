@@ -2,25 +2,25 @@
 // fp addition can only overflow when sign(a) != sign(b)
 // fp multiplication can overflow anytime
 
-function [DATAWIDTH-1:0] fmul;
-    input [DATAWIDTH-1:0] a;
-    input [DATAWIDTH-1:0] b;
-    reg [DATAWIDTH*2-1:0] extended_a;
-    reg [DATAWIDTH*2-1:0] extended_b;
-    reg [DATAWIDTH*2-1:0] tmp;
+function [DATAWIDTH] fmul;
+    input [DATAWIDTH] a;
+    input [DATAWIDTH] b;
+    reg [DATAWIDTH*2] extended_a;
+    reg [DATAWIDTH*2] extended_b;
+    reg [DATAWIDTH*2] tmp;
     begin
-        extended_a[DATAWIDTH-1:0] = a;
-        extended_a[DATAWIDTH*2-1:DATAWIDTH-1] = {DATAWIDTH{a[DATAWIDTH-1]}};
-        extended_b[DATAWIDTH-1:0] = b;
-        extended_b[DATAWIDTH*2-1:DATAWIDTH-1] = {DATAWIDTH{b[DATAWIDTH-1]}};
+        extended_a[0+:DATAWIDTH] = a;
+        extended_a[DATAWIDTH+:DATAWIDTH] = {DATAWIDTH{a[DATAWIDTH-1]}};
+        extended_b[0+:DATAWIDTH] = b;
+        extended_b[DATAWIDTH+:DATAWIDTH] = {DATAWIDTH{b[DATAWIDTH-1]}};
         tmp = extended_a * extended_b;
         fmul = tmp >> `FP_FRACTION;
     end
 endfunction
 
-function [DATAWIDTH-1:0] fadd;
-    input [DATAWIDTH-1:0] a;
-    input [DATAWIDTH-1:0] b;
+function [DATAWIDTH] fadd;
+    input [DATAWIDTH] a;
+    input [DATAWIDTH] b;
 
     begin
         fadd = a + b;

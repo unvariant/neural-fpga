@@ -1,7 +1,0 @@
-Running: xsim.dir/BenchNeuron_behav/xsimk -simmode gui -wdb BenchNeuron_behav.wdb -simrunnum 0 -socket 39459
-Design successfully loaded
-Design Loading Memory Usage: 36732 KB (Peak: 36788 KB)
-Design Loading CPU Usage: 10 ms
-Simulation completed
-Simulation Memory Usage: 118728 KB (Peak: 184004 KB)
-Simulation CPU Usage: 30 ms
