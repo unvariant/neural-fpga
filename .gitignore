@@ -10,6 +10,7 @@ vivado/neural.*/
 **/*.wlf
 **/*.mti
 modelsim/work/*
+**/transcript
 
 # misc
 **/__pycache__/
